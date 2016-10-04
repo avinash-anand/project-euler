@@ -5,12 +5,29 @@ package archives
   * By starting with 1 and 2, the first 10 terms will be: 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...
   * By considering the terms in the Fibonacci sequence whose values do not exceed four million,
   * find the sum of the even-valued terms.
+  * 4 million = 4,000,000
   */
 object SumOfEvenFibonacci {
 
   def sumOfEvenFibonacciTermsBelow4Million: BigDecimal = {
-    
-    ???
+    val initSeq = Seq[Int](1,2)
+    val limitGiven = 4000000
+
+    def fibonachhiUptoLimit(limit: Int, acc: Seq[Int]): Seq[Int] = {
+      val nextElem = acc.last + acc(acc.size - 2)
+      if(nextElem <= limit) fibonachhiUptoLimit(limit, acc :+ nextElem)
+      else acc
+    }
+
+    val allFibonachhiItems = fibonachhiUptoLimit(limitGiven, initSeq)
+    val allEvenOnes = allFibonachhiItems.filter(_ % 2 == 0)
+
+    def addToTotal(even: Seq[Int], index: Int, total: Long): Long = {
+      if(index == even.size) total
+      else addToTotal(even, index + 1, total + even(index))
+    }
+
+    addToTotal(allEvenOnes, 0, 0)
   }
 
 }
